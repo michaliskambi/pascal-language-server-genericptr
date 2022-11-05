@@ -146,7 +146,7 @@ type
 
 implementation
 uses
-  SysUtils, RegExpr, DefineTemplates;
+  SysUtils, RegExpr, DefineTemplates, CastleLsp;
 
 { TInitializeParams }
 
@@ -334,6 +334,7 @@ var
   ServerCapabilities: TServerCapabilities;
   Macros: TMacroMap;
   Paths: TStringArray;
+  CgeOptions: String;
 begin with Params do
   begin
     CodeToolsOptions := TCodeToolsOptions.Create;
@@ -465,6 +466,15 @@ begin with Params do
             else
               FPCOptions := FPCOptions + Option + ' ';
           end;
+
+        InitializeUserConfig;
+        CgeOptions := CastleFpcOptions;
+        if CgeOptions <> '' then
+        begin
+          FPCOptions := FPCOptions + ' ' + CgeOptions;
+          writeln(StdErr, 'Castle Game Engine: Adding custom options: ' + CgeOptions);
+        end else
+          writeln(StdErr, 'Castle Game Engine: Engine path not defined, not adding any options');
 
         if ServerSettings.&program <> '' then
           begin
