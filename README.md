@@ -7,6 +7,10 @@ Pascal](https://www.freepascal.org/), including Object Pascal. It uses
 [CodeTools](https://wiki.lazarus.freepascal.org/Codetools) from
 Lazarus as backend.
 
+https://github.com/michaliskambi/pascal-language-server-genericptr notes:
+
+This a fork of a fork. We add capability to configure using `castle-pasls.ini`, in particular to define _Castle Game Engine_ path that will make `pasls` aware of CGE units and autocomplete CGE API.
+
 ## Features
 
 The implementation is still incomplete.
@@ -101,6 +105,25 @@ documentSymbols
 minimalisticCompletions
 // syntax errors as shown in the UI with ‘window/showMessage’
 showSyntaxErrors
+```
+
+### Ini file
+
+Note: The initializationOptions described above are in general a better way to provide options for LSP. However... the `castle-pasls.ini` is
+
+1. central configuration for both LSP server forks (this one, and based on Philip Zander, https://github.com/castle-engine/pascal-language-server ),
+
+2. central configuration for both VS Code and Emacs, which makes it easier for Michalis who uses both.
+
+Allowed options:
+
+```
+[castle]
+;; Castle Game Engine location.
+;; Set this to make pasls automatically know paths to CGE units,
+;; and thus autocomplete CGE API.
+;; Alternatively you can define CASTLE_ENGINE_PATH environment variable.
+path=/home/michalis/sources/castle-engine/castle-engine/
 ```
 
 ### TODO:
