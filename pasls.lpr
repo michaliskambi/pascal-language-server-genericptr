@@ -169,6 +169,25 @@ begin
               continue;
             end;
           Content := Response.AsJSON;
+          
+          (*Invalid JSON happens when using from Emacs LSP client on an invalid Pascal
+            (e.g. try on LFM, or with Pascal file using specialize without $mode objfpc).
+            Without this hack, we could send invalid JSON like
+
+              {"result":,"id":85,"jsonrpc":"2.0"}
+
+            TODO: Understand better how it happens, why we get invalid JSON
+            and not e.g. result=null.
+
+            Unknown why we cannot reproduce it from VS Code client.
+          *)
+          if Content.StartsWith('{"result":,"') then
+            begin
+              Writeln(StdErr, 'invalid response JSON (empty result) -> ', Content);
+              Flush(StdErr);
+              continue;
+            end;
+          
           WriteLn('Content-Type: ', ContentType);
           WriteLn('Content-Length: ', Content.Length);
           WriteLn;
