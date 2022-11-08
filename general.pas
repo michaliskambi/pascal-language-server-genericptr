@@ -334,7 +334,7 @@ var
   ServerCapabilities: TServerCapabilities;
   Macros: TMacroMap;
   Paths: TStringArray;
-  CgeOptions: String;
+  ExtraOptions: String;
 begin with Params do
   begin
     CodeToolsOptions := TCodeToolsOptions.Create;
@@ -468,13 +468,9 @@ begin with Params do
           end;
 
         InitializeUserConfig;
-        CgeOptions := CastleFpcOptions;
-        if CgeOptions <> '' then
-        begin
-          FPCOptions := FPCOptions + ' ' + CgeOptions;
-          writeln(StdErr, 'Castle Game Engine: Adding custom options: ' + CgeOptions);
-        end else
-          writeln(StdErr, 'Castle Game Engine: Engine path not defined, not adding any options');
+        ExtraOptions := ExtraFpcOptions;
+        FPCOptions := FPCOptions + ' ' + ExtraOptions;
+        writeln(StdErr, 'Castle Game Engine: Adding compiler options: ' + ExtraOptions);
 
         if ServerSettings.&program <> '' then
           begin

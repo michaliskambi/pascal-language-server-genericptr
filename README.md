@@ -109,7 +109,7 @@ showSyntaxErrors
 
 ### Ini file
 
-Note: The initializationOptions described above are in general a better way to provide options for LSP. However... the `castle-pasls.ini` is
+The LSP initializationOptions described above are in general a better way to provide options for LSP. However... the `castle-pasls.ini` is
 
 1. central configuration for both LSP server forks (this one, and based on Philip Zander, https://github.com/castle-engine/pascal-language-server ),
 
@@ -120,10 +120,22 @@ Allowed options:
 ```
 [castle]
 ;; Castle Game Engine location.
-;; Set this to make pasls automatically know paths to CGE units,
-;; and thus autocomplete CGE API.
-;; Alternatively you can define CASTLE_ENGINE_PATH environment variable.
+;;
+;; Set this to make pasls autocomplete CGE API by:
+;; 1. knowing paths to all CGE units (derived from this CGE path),
+;; 2. using default CGE compilation settings, like -Mobjfpc and -Sh (used by CGE build tool and editor).
+;;
+;; ( Alternatively to this you can define CASTLE_ENGINE_PATH environment variable,
+;; but note that VS Code integration prevents all environment variables from reaching pasls now. )
 path=/home/michalis/sources/castle-engine/castle-engine/
+
+[extra_options]
+;; Specify as many extra FPC options as you want.
+;; Each extra option must have a consecutive number, we start from 1, and stop when
+;; an option does not exist (or is an empty string).
+option_1=-Fu/home/michalis/sources/castle-engine/castle-engine/tests/code/tester-fpcunit
+option_2=-dSOME_DEFINE
+option_3=-dSOMETHING_MORE
 ```
 
 ### TODO:
