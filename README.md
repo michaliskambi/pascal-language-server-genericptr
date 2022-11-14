@@ -118,6 +118,12 @@ The LSP initializationOptions described above are in general a better way to pro
 Allowed options:
 
 ```
+[log]
+;; Where to write log (contains request / response JSONs).
+;; We will add suffix with process id, like '.pid123' .
+;; By default none.
+filename=/tmp/pasls-log.txt
+
 [castle]
 ;; Castle Game Engine location.
 ;;

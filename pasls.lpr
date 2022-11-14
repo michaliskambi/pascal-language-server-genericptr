@@ -35,7 +35,7 @@ uses
   inlayHint,
 
   { Pasls }
-  memUtils;
+  memUtils, CastleLsp, CastleLspLog;
 
 const
   ContentType = 'application/vscode-jsonrpc; charset=utf-8';
@@ -61,6 +61,7 @@ begin
     begin
       writeln('◀️ response: ');
       writeln(Response.FormatJSON);
+      WritelnLog('SendMessage: ' + Response.FormatJSON);
       Response.Free;
     end;
 
@@ -119,6 +120,11 @@ begin
       Halt;
     end;
 
+  InitializeUserConfig;
+  InitializeLog;
+  if IsLogging then
+    VerboseDebugging := true;
+
   {$if FPC_FULLVERSION>=30301}
   ExecuteCommandLineMessages;
   {$endif}
@@ -155,6 +161,7 @@ begin
       // log request payload
       if VerboseDebugging then
         begin
+          WritelnLog('Request: ' + Request.FormatJSON);
           writeln(StdErr, Request.FormatJSON);
           Flush(StdErr);
         end;
@@ -197,6 +204,7 @@ begin
           // log response payload
           if VerboseDebugging then
             begin
+              WritelnLog('Response: ' + Response.FormatJSON);
               writeln(StdErr, Content);
               Flush(StdErr);
             end;

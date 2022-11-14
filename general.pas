@@ -30,7 +30,8 @@ uses
   FPMConfig, FPMUtils,
   {$endif}
   Classes, CodeToolManager, CodeToolsConfig, URIParser, LazUTF8,
-  lsp, basic, capabilities, documentSymbol, settings, symbols;
+  lsp, basic, capabilities, documentSymbol, settings, symbols,
+  CastleLspLog;
 
 type
 
@@ -467,10 +468,9 @@ begin with Params do
               FPCOptions := FPCOptions + Option + ' ';
           end;
 
-        InitializeUserConfig;
         ExtraOptions := ExtraFpcOptions;
         FPCOptions := FPCOptions + ' ' + ExtraOptions;
-        writeln(StdErr, 'Castle Game Engine: Adding compiler options: ' + ExtraOptions);
+        WritelnLog('Castle Game Engine: Adding compiler options: ' + ExtraOptions);
 
         if ServerSettings.&program <> '' then
           begin
