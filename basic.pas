@@ -545,7 +545,7 @@ operator :=(right: String): TOptionalString;
 
 implementation
 uses
-  lsp;
+  lsp, CastleLspLog;
 
 { Utilities }
 
@@ -641,6 +641,8 @@ begin
   if Data <> nil then
     begin
       Content := Data.AsJSON;
+      
+      WritelnLog('Sending message to LSP client: ' + Content);
 
       WriteLn('Content-Type: ', ContentType);
       WriteLn('Content-Length: ', Content.Length);
